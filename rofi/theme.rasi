@@ -1,0 +1,61 @@
+/* Wallpaper-driven colors from matugen */
+@import "colors.rasi"
+
+window {
+    background-color:  @bg;
+    border:            2px solid;
+    border-radius:     12px;
+    padding:           12px;
+    width:             580px;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    spacing:  8px;
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius:    8px;
+    padding:          8px 12px;
+    children:         [ prompt, entry ];
+    spacing:          6px;
+}
+
+prompt {
+    text-color: @accent;
+    font:       "JetBrains Mono 13";
+}
+
+entry {
+    font:       "JetBrains Mono 13";
+    text-color: @fg;
+}
+
+listview {
+    lines:       8;
+    scrollbar:   false;
+    spacing:     4px;
+}
+
+element {
+    background-color: transparent;
+    border-radius:    6px;
+    padding:          6px 10px;
+    spacing:          8px;
+    children:         [ element-icon, element-text ];
+}
+
+element selected {
+    background-color: @bg-alt;
+    text-color:       @accent;
+}
+
+element-icon {
+    size: 24px;
+}
+
+element-text {
+    font:       "JetBrains Mono 13";
+    text-color: inherit;
+}

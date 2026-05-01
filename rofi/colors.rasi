@@ -1,0 +1,12 @@
+/* Matugen-generated rofi colors — do not edit by hand */
+* {
+    bg:      #0a0f12f2;
+    bg-alt:  #1c2024cc;
+    fg:      #dfe3e8;
+    fg-alt:  #c1c7ce;
+    accent:  #94cdf7;
+
+    background-color: transparent;
+    text-color:       @fg;
+    border-color:     @accent;
+}

@@ -1,0 +1,6 @@
+# Ignore compiled/cache files
+hypr/scripts/quickshell/*.qmlc
+hypr/scripts/quickshell/**/*.qmlc
+**/__pycache__/
+*.pyc
+.cache/
