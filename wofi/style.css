@@ -1,0 +1,85 @@
+/* Wofi – Everforest dark (rice2) */
+
+window {
+    margin: 5px;
+    border-radius: 10px;
+    background-color: rgba(30, 35, 38, 0.92);
+    font-family: "Iosevka Nerd Font", monospace;
+    border: 2px solid rgba(131, 192, 146, 0.3);
+}
+
+#input {
+    margin: 8px;
+    padding: 10px 14px;
+    border: 2px solid rgba(131, 192, 146, 0.5);
+    border-radius: 8px;
+    color: #d3c6aa;
+    background-color: rgba(55, 65, 69, 0.85);
+    outline: none;
+    caret-color: #83c092;
+    font-size: 14px;
+}
+
+#input:focus {
+    border-color: #83c092;
+    box-shadow: 0 0 8px rgba(131, 192, 146, 0.25);
+}
+
+#inner-box {
+    margin: 4px 8px 8px 8px;
+    background-color: transparent;
+}
+
+#outer-box {
+    margin: 0;
+    padding: 4px;
+    background-color: transparent;
+}
+
+#scroll {
+    margin: 0;
+    padding: 4px;
+}
+
+#text {
+    margin: 3px;
+    padding: 3px;
+    color: #d3c6aa;
+    font-size: 13px;
+}
+
+#text:selected {
+    color: #83c092;
+    font-weight: bold;
+}
+
+#entry {
+    padding: 8px 10px;
+    margin: 2px 4px;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+}
+
+#entry:hover {
+    background-color: rgba(131, 192, 146, 0.15);
+}
+
+#entry:selected {
+    background-color: rgba(131, 192, 146, 0.25);
+    box-shadow: 0 2px 6px rgba(131, 192, 146, 0.15);
+}
+
+#img {
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+#unselected {
+    opacity: 0.85;
+}
+
+#urgent {
+    background-color: rgba(230, 126, 128, 0.2);
+    color: #e67e80;
+    border-left: 3px solid #e67e80;
+}

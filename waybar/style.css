@@ -1,0 +1,276 @@
+@import "./colors.css";
+
+/* ── Global ── */
+* {
+    border: none;
+    font-family: "Iosevka Nerd Font", monospace;
+    font-size: 15px;
+    box-shadow: none;
+    min-width: 28px;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+/* ── Hover states ── */
+#custom-launcher:hover,
+#network:hover,
+#bluetooth:hover,
+#pulseaudio:hover,
+#custom-power:hover,
+#pulseaudio.microphone:hover,
+#pulseaudio.sink-muted:hover {
+    opacity: 0.8;
+}
+
+/* ── Launcher ── */
+#custom-launcher {
+    color: @foreground;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 0 14px;
+    margin: 0 4px;
+    border-radius: 10px;
+    min-height: 30px;
+}
+
+/* ── Workspaces ── */
+#workspaces {
+    margin: 0;
+    padding: 0;
+}
+
+#workspaces button {
+    color: @color0;
+    padding: 0 8px;
+    margin: 0 4px;
+    border-radius: 10px;
+    min-height: 30px;
+    transition: all 0.2s ease;
+}
+
+#workspaces button.active {
+    color: @foreground;
+    background: rgba(0, 0, 0, 0.12);
+}
+
+#workspaces button.occupied {
+    color: @color6;
+}
+
+#workspaces button.urgent {
+    background: @color1;
+    animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0.5; }
+}
+
+/* ── Clock ── */
+#clock {
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 10px;
+    color: @foreground;
+    background: rgba(0, 0, 0, 0.12);
+    font-weight: 500;
+    min-height: 30px;
+}
+
+/* ── MPRIS ── */
+#mpris {
+    color: @foreground;
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.12);
+    min-height: 30px;
+}
+
+#mpris.playing { color: @color6; }
+#mpris.paused  { color: @color3; }
+#mpris.stopped { color: @color1; }
+
+/* ── Tray ── */
+#tray {
+    background: rgba(0, 0, 0, 0.12);
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 10px;
+    min-height: 30px;
+}
+
+/* ── Privacy ── */
+#privacy {
+    background: rgba(219, 188, 127, 0.12);
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 10px;
+    min-height: 30px;
+}
+
+#privacy-item { color: @color3; }
+
+/* ── Network ── */
+#network {
+    color: @foreground;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 10px;
+    min-height: 30px;
+}
+
+#network.disabled,
+#network.disconnected {
+    color: @color1;
+    background: rgba(230, 126, 128, 0.12);
+}
+
+/* ── Bluetooth ── */
+#bluetooth {
+    color: @foreground;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 10px;
+    min-height: 30px;
+}
+
+#bluetooth.disabled {
+    color: @color4;
+    background: rgba(127, 187, 179, 0.12);
+}
+
+/* ── Audio ── */
+#pulseaudio {
+    color: @foreground;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 10px;
+    min-height: 30px;
+}
+
+#pulseaudio.sink-muted {
+    color: @color3;
+    background: rgba(219, 188, 127, 0.12);
+}
+
+#pulseaudio.microphone {
+    color: @foreground;
+    background: rgba(0, 0, 0, 0.12);
+}
+
+#pulseaudio.microphone.source-muted {
+    color: @color1;
+    background: rgba(230, 126, 128, 0.12);
+}
+
+#pulseaudio-slider {
+    background: rgba(0, 0, 0, 0.12);
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 10px;
+    min-height: 30px;
+}
+
+#pulseaudio-slider slider {
+    min-height: 0;
+    min-width: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+#pulseaudio-slider trough {
+    min-height: 8px;
+    min-width: 100px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#pulseaudio-slider highlight {
+    min-width: 8px;
+    min-height: 8px;
+    border-radius: 4px;
+    background: @color6;
+}
+
+/* ── Backlight ── */
+#backlight {
+    color: @foreground;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 10px;
+    min-height: 30px;
+}
+
+#backlight-slider {
+    background: rgba(0, 0, 0, 0.12);
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 10px;
+    min-height: 30px;
+}
+
+#backlight-slider slider {
+    min-height: 0;
+    min-width: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+#backlight-slider trough {
+    min-height: 8px;
+    min-width: 100px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.12);
+}
+
+#backlight-slider highlight {
+    min-width: 8px;
+    min-height: 8px;
+    border-radius: 4px;
+    background: @color3;
+}
+
+/* ── Battery ── */
+#battery {
+    color: @foreground;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 10px;
+    min-height: 30px;
+}
+
+#battery.plugged,
+#battery.charging  { color: @color6; }
+#battery.warning   { color: @color3; }
+#battery.critical  { color: @color1; }
+
+/* ── Power ── */
+#custom-power {
+    color: @foreground;
+    background: rgba(0, 0, 0, 0.12);
+    margin: 0 4px;
+    padding: 0 12px;
+    border-radius: 10px;
+    min-height: 30px;
+}
+
+/* ── Tooltips ── */
+tooltip {
+    color: rgba(211, 198, 170, 0.9);
+    background: rgba(30, 35, 38, 0.95);
+    border-radius: 10px;
+}
+
+tooltip * {
+    color: rgba(211, 198, 170, 0.9);
+    text-shadow: none;
+    background: transparent;
+    margin: 2px;
+}

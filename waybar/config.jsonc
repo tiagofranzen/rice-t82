@@ -1,0 +1,240 @@
+{
+    "reload_style_on_change": true,
+    "layer": "top",
+    "position": "top",
+    "spacing": 0,
+    "margin": "8px 8px 0 8px",
+
+    "modules-left":   ["custom/launcher", "hyprland/workspaces"],
+    "modules-center": ["clock", "mpris"],
+    "modules-right":  [
+        "tray",
+        "privacy",
+        "network",
+        "bluetooth",
+        "pulseaudio#microphone",
+        "group/audio",
+        "group/brightness",
+        "battery",
+        "custom/power"
+    ],
+
+    "group/brightness": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 400,
+            "children-class": "brightness",
+            "transition-left-to-right": false
+        },
+        "modules": ["backlight", "backlight/slider"]
+    },
+
+    "group/audio": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 400,
+            "children-class": "audio",
+            "transition-left-to-right": false
+        },
+        "modules": ["pulseaudio", "pulseaudio/slider"]
+    },
+
+    "custom/launcher": {
+        "format": "  btw",
+        "tooltip": false,
+        "on-click": "wofi --show drun",
+        "on-click-right": "kitty"
+    },
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "1": "一",
+            "2": "二",
+            "3": "三",
+            "4": "四",
+            "5": "五",
+            "6": "六",
+            "7": "七",
+            "8": "八",
+            "9": "九",
+            "10": "十",
+            "default": "◯",
+            "empty": "◯",
+            "urgent": "緊急"
+        },
+        "sort-by": "number",
+        "all-outputs": false,
+        "show-special": false,
+        "persistent-workspaces": { "*": 5 },
+        "on-click": "activate",
+        "ignore-workspaces": ["scratch"]
+    },
+
+    "clock": {
+        "interval": 1,
+        "format": "{:%H:%M:%S}",
+        "format-alt": "{:%a, %b %d}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>"
+    },
+
+    "mpris": {
+        "format": "{player_icon} {status_icon}",
+        "format-paused": "{player_icon} {status_icon}",
+        "status-icons": {
+            "playing": "󰐊",
+            "paused":  "󰏤",
+            "stopped": "󰓛"
+        },
+        "player-icons": {
+            "default":         "󱜏",
+            "spotify_player":  "",
+            "spotify":         "",
+            "firefox":         "󰺕",
+            "vlc":             "󰕼"
+        },
+        "return-type": "json",
+        "interval": 1,
+        "on-click":        "playerctl play-pause",
+        "on-click-right":  "playerctl next",
+        "on-click-middle": "playerctl previous",
+        "tooltip": true,
+        "tooltip-format": "{title} • {artist}",
+        "ellipsis": "…",
+        "title-len": 30,
+        "artist-len": 25
+    },
+
+    "tray": {
+        "icon-size": 14,
+        "spacing": 8,
+        "reverse-direction": true
+    },
+
+    "privacy": {
+        "icon-spacing": 8,
+        "icon-size": 14,
+        "transition-duration": 250,
+        "modules": [
+            { "type": "screenshare", "tooltip": true, "tooltip-icon-size": 24 }
+        ]
+    },
+
+    "cpu": {
+        "format": "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+        "format-icons": [
+            "<span color='#a7c080'>▁</span>",
+            "<span color='#7fbbb3'>▂</span>",
+            "<span color='#d3c6aa'>▃</span>",
+            "<span color='#d3c6aa'>▄</span>",
+            "<span color='#dbbc7f'>▅</span>",
+            "<span color='#dbbc7f'>▆</span>",
+            "<span color='#e69875'>▇</span>",
+            "<span color='#e67e80'>█</span>"
+        ],
+        "interval": 1,
+        "tooltip": true,
+        "tooltip-format": "CPU: {avg_frequency} GHz",
+        "on-click": "kitty -e btop"
+    },
+
+    "network": {
+        "format-icons": {
+            "wifi":         ["󰤟", "󰤢", "󰤥", "󰤨"],
+            "ethernet":     "󰈀",
+            "disabled":     "󰤭",
+            "disconnected": "󰤫"
+        },
+        "format-wifi":        "{icon}",
+        "format-ethernet":    "{icon}",
+        "format-disconnected": "{icon}",
+        "format-disabled":    "{icon}",
+        "interval": 5,
+        "tooltip-format": "{essid}  {gwaddr}",
+        "on-click":       "rfkill toggle wifi",
+        "on-click-right": "kitty -e nmtui",
+        "tooltip": true,
+        "max-length": 20
+    },
+
+    "bluetooth": {
+        "interval": 5,
+        "format-on":        "󰂯",
+        "format-off":       "󰂲",
+        "format-disabled":  "󰂲",
+        "format-connected": "󰂱",
+        "tooltip": true,
+        "tooltip-format": "{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}  {device_battery_percentage}%",
+        "on-click":       "rfkill toggle bluetooth",
+        "on-click-right": "blueman-manager"
+    },
+
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal"
+    },
+
+    "pulseaudio": {
+        "interval": 2,
+        "format": "{icon}",
+        "format-muted": "󰝟",
+        "format-icons": {
+            "headphone":  "󰋋",
+            "hands-free": "󰋎",
+            "headset":    "󰋋",
+            "default":    ["󰖁", "󰕿", "󰕾"]
+        },
+        "on-click-right": "pavucontrol",
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-scroll-up": "",
+        "on-scroll-down": "",
+        "tooltip": true,
+        "tooltip-format": "Volume: {volume}%\n{desc}",
+        "ignored-sinks": ["Easy Effects Sink"]
+    },
+
+    "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source":       "󰍬",
+        "format-source-muted": "󰍭",
+        "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+        "tooltip": false
+    },
+
+    "backlight/slider": {
+        "min": 5,
+        "max": 100,
+        "orientation": "horizontal",
+        "device": "dp_aux_backlight"
+    },
+
+    "backlight": {
+        "device": "dp_aux_backlight",
+        "format": "{icon}",
+        "format-icons": ["󰃞", "󰃟", "󰃠", "󰃡", "󰃢", "󰃣", "󰃤"],
+        "on-scroll-up": "",
+        "on-scroll-down": "",
+        "tooltip": false
+    },
+
+    "battery": {
+        "interval": 5,
+        "states": { "warning": 20, "critical": 10 },
+        "format": "{icon}",
+        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁"],
+        "format-charging": "󰂄",
+        "format-plugged":  "󰂄",
+        "tooltip": true,
+        "tooltip-format": "Charge: {capacity}%"
+    },
+
+    "custom/power": {
+        "format": "󰐥",
+        "on-click": "bash -c 'hyprlock &'",
+        "on-click-right": "systemctl poweroff",
+        "tooltip": false
+    }
+}
