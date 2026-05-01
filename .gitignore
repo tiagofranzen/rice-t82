@@ -1,3 +1,6 @@
+# Secrets — never commit .env, use .env.example instead
+**/.env
+
 # Ignore compiled/cache files
 hypr/scripts/quickshell/*.qmlc
 hypr/scripts/quickshell/**/*.qmlc
