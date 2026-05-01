@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+# rice — manage and switch Hyprland rices stored as git branches in ~/dotfiles
+#
+# Usage:
+#   rice list              — list available rices (branches)
+#   rice switch <name>     — switch to a rice and reload Hyprland
+#   rice save <name>       — save current live configs as a new rice branch
+#   rice current           — show which rice is active
+
+DOTFILES=~/dotfiles
+CONFIGS=(hypr kitty rofi dunst waybar wofi gtk-3.0 gtk-4.0)
+
+die() { echo "rice: $*" >&2; exit 1; }
+
+sync_to_live() {
+    # Copy configs from dotfiles repo → ~/.config/
+    for dir in "${CONFIGS[@]}"; do
+        [ -d "$DOTFILES/$dir" ] || continue
+        rm -rf ~/.config/"$dir"
+        cp -r "$DOTFILES/$dir" ~/.config/"$dir"
+    done
+}
+
+sync_from_live() {
+    # Copy live ~/.config/ → dotfiles repo
+    for dir in "${CONFIGS[@]}"; do
+        [ -d ~/.config/"$dir" ] || continue
+        rm -rf "$DOTFILES/$dir"
+        cp -r ~/.config/"$dir" "$DOTFILES/$dir"
+    done
+}
+
+cmd="${1:-list}"
+
+case "$cmd" in
+    list)
+        current=$(git -C "$DOTFILES" branch --show-current)
+        echo "Available rices:"
+        git -C "$DOTFILES" branch | while read -r line; do
+            branch="${line#\* }"
+            branch="${branch#  }"
+            if [ "$branch" = "$current" ]; then
+                echo "  * $branch  (active)"
+            else
+                echo "    $branch"
+            fi
+        done
+        ;;
+
+    switch)
+        name="${2:-}" ; [ -n "$name" ] || die "Usage: rice switch <name>"
+        git -C "$DOTFILES" branch | grep -q "^\*\? *${name}$" || die "rice '$name' not found. Use 'rice list'."
+        echo "Switching to rice: $name"
+        git -C "$DOTFILES" checkout "$name" || die "git checkout failed"
+        sync_to_live
+        echo "Reloading Hyprland..."
+        hyprctl reload 2>/dev/null || true
+        # Start/stop the right bar for this rice
+        if grep -q 'exec-once.*waybar' ~/.config/hypr/config/autostart.conf 2>/dev/null; then
+            # Rice uses waybar
+            pkill -f quickshell 2>/dev/null || true
+            systemctl --user stop quickshell-main   2>/dev/null || true
+            systemctl --user stop quickshell-topbar 2>/dev/null || true
+            sleep 0.3
+            XDG_RUNTIME_DIR=/run/user/"$(id -u)" WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-1}" \
+                systemd-run --user --unit=waybar-rice waybar 2>/dev/null || true
+        else
+            # Rice uses quickshell — kill ALL instances first to avoid doubles
+            pkill waybar 2>/dev/null || true
+            pkill -f quickshell 2>/dev/null || true
+            systemctl --user stop waybar-rice waybar-rice2b quickshell-main quickshell-topbar 2>/dev/null || true
+            sleep 0.5
+            XDG_RUNTIME_DIR=/run/user/"$(id -u)" WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-1}" \
+                systemd-run --user --unit=quickshell-main    quickshell -p ~/.config/hypr/scripts/quickshell/Main.qml   2>/dev/null || true
+            XDG_RUNTIME_DIR=/run/user/"$(id -u)" WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-1}" \
+                systemd-run --user --unit=quickshell-topbar  quickshell -p ~/.config/hypr/scripts/quickshell/TopBar.qml 2>/dev/null || true
+        fi
+        echo "Done — rice '$name' is now active."
+        ;;
+
+    save)
+        name="${2:-}" ; [ -n "$name" ] || die "Usage: rice save <name>"
+        echo "Saving current configs as rice: $name"
+        sync_from_live
+        current=$(git -C "$DOTFILES" branch --show-current)
+        if git -C "$DOTFILES" branch | grep -q "^\*\? *${name}$"; then
+            git -C "$DOTFILES" checkout "$name"
+        else
+            git -C "$DOTFILES" checkout -b "$name"
+        fi
+        git -C "$DOTFILES" add -A
+        git -C "$DOTFILES" diff --cached --quiet || git -C "$DOTFILES" commit -m "Update rice: $name"
+        echo "Pushing to GitHub..."
+        if git -C "$DOTFILES" push -u origin "$name" 2>&1; then
+            echo "Saved and pushed rice '$name'. Switch to it with: rice switch $name"
+        else
+            echo "Saved locally but push failed — check your connection or run: git -C ~/dotfiles push origin $name"
+        fi
+        git -C "$DOTFILES" checkout "$current"
+        ;;
+
+    current)
+        git -C "$DOTFILES" branch --show-current
+        ;;
+
+    *)
+        echo "Usage: rice <list|switch <name>|save <name>|current>"
+        exit 1
+        ;;
+esac
