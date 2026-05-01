@@ -3,8 +3,8 @@
 /* ── Global ── */
 * {
     border: none;
-    font-family: "Iosevka Nerd Font", monospace;
-    font-size: 15px;
+    font-family: "Ubuntu Sans", "Noto Sans", "Iosevka Nerd Font", sans-serif;
+    font-size: 14px;
     box-shadow: none;
     min-width: 28px;
 }
